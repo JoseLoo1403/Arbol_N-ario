@@ -1,20 +1,10 @@
 #include <iostream>
 #include <list>
 #include <iterator>
+#include "Tree.h"
 
 using namespace std;
 
-class Node
-{
-public:
-	int Data;
-	list<Node> Children = list<Node>();
-
-	Node(int dat)
-	{
-		Data = dat;
-	}
-};
 
 //Global Variables
 
@@ -70,10 +60,14 @@ int main()
 {
 	InsertNode(2, 1, &Root);
 	InsertNode(3, 1, &Root);
-	InsertNode(4, 2, &Root);
+	InsertNode(4, 1, &Root);
 	InsertNode(5, 2, &Root);
-	InsertNode(6, 5, &Root);
+	InsertNode(6, 2, &Root);
 
 	cout <<"   " <<Root.Data << endl;
 	PrintTree(Root, "|--");
+
+	PrintPreorder(Root);
+	cout << endl;
+	PrintPosorder(Root);
 }
