@@ -34,7 +34,6 @@ void InsertNode(int data, int father, Node* node)
 			return;
 		}
 	}
-
 	
 	for (list<Node>::iterator i = node->Children.begin(); i != node->Children.end(); i++)
 	{
@@ -56,6 +55,15 @@ void PrintTree(Node n, string SpaceHelper)
 	}
 }
 
+void LookForNode()
+{
+	int D;
+	system("cls");
+	cout << "Ingrese el dato del nodo que quiere buscar: " << endl;
+	cin >> D;
+	SearchNode(Root, D);
+}
+
 int main()
 {
 	InsertNode(2, 1, &Root);
@@ -63,6 +71,10 @@ int main()
 	InsertNode(4, 1, &Root);
 	InsertNode(5, 2, &Root);
 	InsertNode(6, 2, &Root);
+	InsertNode(7, 1, &Root);
+	InsertNode(8, 4, &Root);
+	InsertNode(9, 4, &Root);
+	InsertNode(11, 9, &Root);
 
 	cout <<"   " <<Root.Data << endl;
 	PrintTree(Root, "|--");
@@ -70,4 +82,12 @@ int main()
 	PrintPreorder(Root);
 	cout << endl;
 	PrintPosorder(Root);
+	cout << endl;
+
+	system("PAUSE");
+
+	while (CountinueHelper())
+	{
+		LookForNode();
+	}
 }
