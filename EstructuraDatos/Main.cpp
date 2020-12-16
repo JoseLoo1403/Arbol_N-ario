@@ -1,13 +1,14 @@
 #include <iostream>
 #include <list>
 #include <iterator>
+#include <vector>
 #include "Tree.h"
 
 using namespace std;
 
 
 //Global Variables
-
+vector<int>DataList;
 Node Root = Node(1);
 
 void InsertNode(int data, int father, Node* node)
@@ -21,6 +22,7 @@ void InsertNode(int data, int father, Node* node)
 	if (node->Data == father)
 	{
 		node->Children.push_back(Node(data));
+		DataList.push_back(data);
 		cout << "Nuevo Nodo ingresado" << endl;
 		return;
 	}
@@ -30,6 +32,7 @@ void InsertNode(int data, int father, Node* node)
 		if (i->Data == father)
 		{
 			i->Children.push_back(Node(data));
+			DataList.push_back(data);
 			cout << "Nuevo Nodo ingresado" << endl;
 			return;
 		}
@@ -44,7 +47,7 @@ void InsertNode(int data, int father, Node* node)
 
 void PrintTree(Node n, string SpaceHelper)
 {
-	SpaceHelper = "   " + SpaceHelper;
+	SpaceHelper = "|  " + SpaceHelper;
 	for (auto x : n.Children)
 	{
 		cout << SpaceHelper <<x.Data << endl;
@@ -64,30 +67,105 @@ void LookForNode()
 	SearchNode(Root, D);
 }
 
+bool VerifytDuplicate(int N)
+{
+	for (auto x : DataList)
+	{
+		if (x == N)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void InsertNodeMenu()
+{
+	while (true)
+	{
+		//Insert Node
+		system("cls");
+		int _NewData;
+		int Father;
+
+		cout << "el dato del nodo: ";
+		cin >> _NewData;
+
+		if (!VerifytDuplicate(_NewData)) //Verify data
+		{
+			cout << endl;
+
+			cout << "Ingrese el nodo padre: ";
+			cin >> Father;
+
+			InsertNode(_NewData, Father, &Root);
+		}
+		else
+		{
+			cout << "Este valor esta repetido" << endl;
+		}
+
+		if (!CountinueHelper("Desea agregar otro nodo?"))
+		{
+			break;
+		}
+	}
+}
+
+void GenerateTree() //Generate tree with random numbers
+{
+	int randomNumber;
+	int randomFather;
+
+	for (int i = 0; i < 20; i++)
+	{
+		randomNumber = 1 + (rand() % 50);
+		randomFather = rand() % DataList.size();
+
+		if (!VerifytDuplicate(randomNumber))
+		{
+			InsertNode(randomNumber,DataList[randomFather],&Root);
+		}
+	}
+}
+
 int main()
 {
-	InsertNode(2, 1, &Root);
-	InsertNode(3, 1, &Root);
-	InsertNode(4, 1, &Root);
-	InsertNode(5, 2, &Root);
-	InsertNode(6, 2, &Root);
-	InsertNode(7, 1, &Root);
-	InsertNode(8, 4, &Root);
-	InsertNode(9, 4, &Root);
-	InsertNode(11, 9, &Root);
+	DataList.push_back(1);
+	bool verificador = true;
+	int result;
 
-	cout <<"   " <<Root.Data << endl;
-	PrintTree(Root, "|--");
-
-	PrintPreorder(Root);
-	cout << endl;
-	PrintPosorder(Root);
-	cout << endl;
-
-	system("PAUSE");
-
-	while (CountinueHelper())
+	while (verificador)
 	{
-		LookForNode();
+		MainMenu();
+		cin >> result;
+
+		switch (result)
+		{
+		case 1:
+			GenerateTree();
+			break;
+		case 2:
+			InsertNodeMenu();
+			break;
+		case 3:
+			LookForNode();
+			break;
+		case 4:
+			break;
+		case 5:
+			cout << "   " << Root.Data << endl;
+			PrintTree(Root,"|--");
+			system("PAUSE");
+			break;
+		case 6:
+			PrintInOrder(Root);
+			system("PAUSE");
+			break;
+		case 0:
+			verificador = false;
+			break;
+		}
 	}
 }
