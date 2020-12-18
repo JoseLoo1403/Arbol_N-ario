@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 //Global Variables
 vector<int>DataList;
 Node Root = Node(1);
@@ -50,8 +49,14 @@ void RemoveNode(int data, Node* n)
 	{
 		if (i->Data == data)
 		{
-			n->Children.erase(i);
-			DataList = RefreshDataList(DataList, data);
+			for (auto l : n->Children)
+			{
+				if (l.Data == data)
+				{
+					DataList = RemoveChildrenFromDataList(DataList, l);
+				}
+			}
+			n->Children.erase(i);			
 			cout << "Nodo eliminado" << endl;
 			return;
 		}

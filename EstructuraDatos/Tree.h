@@ -91,21 +91,49 @@ void SearchNode(Node root, int SearchingData)
 	}
 }
 
-vector<int> RefreshDataList(vector<int> V, int d)
+
+//--------------------------Removing nodes logic----------------------------------------
+vector<int> DataToRemove;
+
+void CleanAllDataListNodes(Node n)
 {
-	int Index = 0;
-	for (int i = 0; i < V.size(); i++)
+	DataToRemove.push_back(n.Data);
+
+	if (n.Children.size() > 0)
 	{
-		if (V[i] == d)
+		for (auto x : n.Children)
 		{
-			Index = i;
+			CleanAllDataListNodes(x);
+		}
+	}
+}
+
+vector<int> RefreshDataList(vector<int> V)
+{
+	for (auto x : DataToRemove)
+	{
+		for (int i = 0; i < V.size(); i++)
+		{
+			if (V[i] == x)
+			{
+				V.erase(V.begin() + i);
+			}
 		}
 	}
 
-	V.erase(V.begin() + Index);
-
 	return V;
 }
+
+vector<int> RemoveChildrenFromDataList(vector<int> V, Node n)
+{
+	DataToRemove.clear();
+
+	CleanAllDataListNodes(n);
+
+	return RefreshDataList(V);
+}
+
+//--------------------------End of Removing nodes logic-----------------------------------
 
 //Menu helpers
 
