@@ -91,6 +91,22 @@ void SearchNode(Node root, int SearchingData)
 	}
 }
 
+vector<int> RefreshDataList(vector<int> V, int d)
+{
+	int Index = 0;
+	for (int i = 0; i < V.size(); i++)
+	{
+		if (V[i] == d)
+		{
+			Index = i;
+		}
+	}
+
+	V.erase(V.begin() + Index);
+
+	return V;
+}
+
 //Menu helpers
 
 void MainMenu()

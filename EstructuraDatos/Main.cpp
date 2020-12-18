@@ -44,6 +44,24 @@ void InsertNode(int data, int father, Node* node)
 	}
 }
 
+void RemoveNode(int data, Node* n)
+{
+	for (list<Node>::iterator i = n->Children.begin(); i != n->Children.end(); i++)
+	{
+		if (i->Data == data)
+		{
+			n->Children.erase(i);
+			DataList = RefreshDataList(DataList, data);
+			cout << "Nodo eliminado" << endl;
+			return;
+		}
+		if (i->Children.size() > 0)
+		{
+			RemoveNode(data, &*i);
+		}
+	}
+}
+
 
 void PrintTree(Node n, string SpaceHelper)
 {
@@ -65,6 +83,7 @@ void LookForNode()
 	cout << "Ingrese el dato del nodo que quiere buscar: " << endl;
 	cin >> D;
 	SearchNode(Root, D);
+	system("PAUSE");
 }
 
 bool VerifytDuplicate(int N)
@@ -78,6 +97,25 @@ bool VerifytDuplicate(int N)
 	}
 
 	return false;
+}
+
+void RemoveNodeMenu()
+{
+	while (true)
+	{
+		system("cls");
+		int DataToRemove;
+
+		cout << "Ingrese el dato del nodo a eliminar: " << endl;
+		cin >> DataToRemove;
+
+		RemoveNode(DataToRemove, &Root);
+
+		if (!CountinueHelper("Desea Eliminar otro nodo?"))
+		{
+			break;
+		}
+	}
 }
 
 void InsertNodeMenu()
@@ -118,9 +156,9 @@ void GenerateTree() //Generate tree with random numbers
 	int randomNumber;
 	int randomFather;
 
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 50; i++)
 	{
-		randomNumber = 1 + (rand() % 50);
+		randomNumber = 1 + (rand() % 100);
 		randomFather = rand() % DataList.size();
 
 		if (!VerifytDuplicate(randomNumber))
@@ -153,6 +191,7 @@ int main()
 			LookForNode();
 			break;
 		case 4:
+			RemoveNodeMenu();
 			break;
 		case 5:
 			cout << "   " << Root.Data << endl;
@@ -160,7 +199,26 @@ int main()
 			system("PAUSE");
 			break;
 		case 6:
+
+			cout << "   " << Root.Data << endl;
+			PrintTree(Root,"|--");
+
+			cout << "Recorridos: " << endl;
+			cout << endl;
+
+			cout<<"In-order: ";
 			PrintInOrder(Root);
+
+			cout << endl;
+
+			cout << "PosOrder: ";
+			PrintPosorder(Root);
+
+			cout << endl;
+
+			cout << "PreOrder: ";
+			PrintPreorder(Root);
+
 			system("PAUSE");
 			break;
 		case 0:
